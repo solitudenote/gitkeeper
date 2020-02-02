@@ -40,4 +40,21 @@ Sample error response
 }
 ```
 
+### Deploy to Glitch
+
+- Clone repository
+```
+Glitch > New Project > Clone from Git Repo
+```
+- Set enviornment variables
+
+```env
+OAUTH_CLIENT_SECRET=""
+OAUTH_CLIENT_ID=""
+```
+
+> Make sure that the Glitch project is private
+
+Please feel free to add deployment steps to other platforms.
+
 [Repository](https://github.com/solitudenote/gitkeeper)
