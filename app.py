@@ -40,7 +40,11 @@ def build_config(code):
 
 def get_access_token(url, headers, payload):
     response = requests.post(url, headers=headers, params=payload)
+    # If client id not found
+    if response.text == "Not Found":
+        raise APIException("Client id is invalid", status_code=404)
     qs = dict(parse_qsl(response.text))
+    print(qs)
     creds = {item: qs[item] for item in qs}
     return creds
 
@@ -48,7 +52,7 @@ def get_access_token(url, headers, payload):
 # Global error handler
 @app.errorhandler(APIException)
 def handle_api_exception(error):
-    response = jsonify(error.to_dict())
+    response = jsonify({"error": error.to_dict()})
     response.status_code = error.status_code
     return response
 
