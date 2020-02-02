@@ -53,8 +53,9 @@ OAUTH_CLIENT_SECRET=""
 OAUTH_CLIENT_ID=""
 ```
 
+Or Just clone the [project](https://glitch.com/~solitudenote-gitkeeper).
 > Make sure that the Glitch project is private
 
-Please feel free to add deployment steps to other platforms.
+Feel free to add deployment steps to other platforms.
 
 [Repository](https://github.com/solitudenote/gitkeeper)
