@@ -18,7 +18,7 @@ flask run
 
 ### API
 
-```
+```bash
 GET http://localhost:5000/authenticate/<code>
 ```
 
@@ -43,12 +43,12 @@ Sample error response
 ### Deploy to Glitch
 
 - Clone repository
-```
+```bash
 Glitch > New Project > Clone from Git Repo
 ```
 - Set enviornment variables
 
-```env
+```bash
 OAUTH_CLIENT_SECRET=""
 OAUTH_CLIENT_ID=""
 ```

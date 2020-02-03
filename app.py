@@ -4,7 +4,10 @@ from config import config
 from flask_cors import CORS
 from urllib.parse import parse_qsl
 from exceptions import APIException
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify
+import markdown
+import markdown.extensions.fenced_code
+import markdown.extensions.codehilite
 
 app = Flask(__name__)
 CORS(app)
@@ -12,7 +15,16 @@ CORS(app)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    readme_file = open("README.md", "r")
+    md_template_string = markdown.markdown(
+        readme_file.read(), extensions=["fenced_code", "codehilite"]
+    )
+
+    # Manually add css to html string
+    css_file = open("styles/styles.css", "r")
+    md_css_string = "<style>" + css_file.read() + "</style>"
+    md_template = md_css_string + md_template_string
+    return md_template
 
 
 @app.route("/authenticate/<code>", methods=["GET"])
@@ -32,9 +44,9 @@ def build_config(code):
 
     # Raise exceptions if client_id or client_secret not found.
     if not payload["client_id"]:
-        raise APIException("Client Id Not found in environment", status_code=422)
+        raise APIException("Client Id is not found in environment", status_code=422)
     if not payload["client_secret"]:
-        raise APIException("Client secret Not found in environment", status_code=422)
+        raise APIException("Client secret is not found in environment", status_code=422)
     return url, headers, payload
 
 
