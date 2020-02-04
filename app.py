@@ -8,6 +8,7 @@ from flask import Flask, jsonify
 import markdown
 import markdown.extensions.fenced_code
 import markdown.extensions.codehilite
+from pygments.formatters import HtmlFormatter
 
 app = Flask(__name__)
 CORS(app)
@@ -20,9 +21,11 @@ def index():
         readme_file.read(), extensions=["fenced_code", "codehilite"]
     )
 
-    # Manually add css to html string
-    css_file = open("styles/styles.css", "r")
-    md_css_string = "<style>" + css_file.read() + "</style>"
+    # Generate css for syntax highlighting
+    formatter = HtmlFormatter(style="emacs", full=True, cssclass="codehilite")
+    css_string = formatter.get_style_defs()
+    md_css_string = "<style>" + css_string + "</style>"
+
     md_template = md_css_string + md_template_string
     return md_template
 
@@ -56,7 +59,6 @@ def get_access_token(url, headers, payload):
     if response.text == "Not Found":
         raise APIException("Client id is invalid", status_code=404)
     qs = dict(parse_qsl(response.text))
-    print(qs)
     creds = {item: qs[item] for item in qs}
     return creds
 
